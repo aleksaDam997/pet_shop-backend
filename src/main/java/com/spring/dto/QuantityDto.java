@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SearchDto {
-	private String word;
-	private double price;
+public class QuantityDto {
+	private int quantity;
 }

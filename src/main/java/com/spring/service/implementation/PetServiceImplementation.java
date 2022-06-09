@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.AddEditPetDto;
+import com.spring.dto.PetSearchDto;
 import com.spring.dto.PetWithPhotosDto;
 import com.spring.dto.SearchDto;
 import com.spring.entity.Breed;
 import com.spring.entity.Pet;
 import com.spring.entity.Photo;
 import com.spring.repository.BreedRepository;
+import com.spring.repository.PetCustomRepository;
 import com.spring.repository.PetRepository;
 import com.spring.repository.PhotoRepository;
 import com.spring.service.PetService;
@@ -27,6 +29,13 @@ public class PetServiceImplementation implements PetService{
 	private BreedRepository breedRepository;
 	
 	@Autowired	private PhotoRepository photoRepository;
+	
+	@Autowired
+	private PetCustomRepository petCustomRepository;
+	
+	public List<Pet> searchForPets(PetSearchDto petSearchDto){
+		return this.petCustomRepository.petSearch(petSearchDto);
+	}
 
 	
 	@Override

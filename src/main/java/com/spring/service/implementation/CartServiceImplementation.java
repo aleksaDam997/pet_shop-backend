@@ -70,7 +70,7 @@ public class CartServiceImplementation implements CartService{
 	}
 	
 	@Override
-	public Cart addArticleToCart(Long cartId, Long productid, int quantity) {
+	public Cart addProductToCart(Long cartId, Long productid, int quantity) {
 
 		Cart cart = this.cartRepository.findById(cartId).get();
 		Product product = this.petProductRep.findById(productid).get();
@@ -84,8 +84,9 @@ public class CartServiceImplementation implements CartService{
 		
 		return this.cartRepository.save(cart);
 	}
+	
 	@Override
-	public Cart changeQuantity(Long cartId, Long productId, int newQuantity) {
+	public Cart changeProductQuantity(Long cartId, Long productId, int newQuantity) {
 		
 		CartItem cartItem = this.cartItemRepository.getCartItemByCartAndProductId(cartId, productId);
 	
@@ -99,6 +100,23 @@ public class CartServiceImplementation implements CartService{
 		
 		return this.cartRepository.findById(cartId).get();
 	}
+	
+	@Override
+	public Cart changePetQuantity(Long cartId, Long petId, int newQuantity) {
+		
+		CartItem cartItem = this.cartItemRepository.getCartItemByCartAndPetd(cartId, petId);
+	
+		if(cartItem == null) {
+			return null;
+		}
+		
+		cartItem.setQuantity(newQuantity);
+		
+		this.cartItemRepository.save(cartItem);
+		
+		return this.cartRepository.findById(cartId).get();
+	}
+	
 	@Override
 	public Cart getById(Long cartId) {
 		
@@ -109,6 +127,11 @@ public class CartServiceImplementation implements CartService{
 		}
 		
 		return cart;
+	}
+	@Override
+	public Cart addPetToCart(Long cartId, Long petId, int quantity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

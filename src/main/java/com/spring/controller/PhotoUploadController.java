@@ -1,6 +1,9 @@
 package com.spring.controller;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.entity.Pet;
-import com.spring.entity.Pet;
-import com.spring.entity.Pet;
+import com.spring.entity.Photo;
 import com.spring.entity.User;
 import com.spring.service.implementation.PhotoServiceImplementation;
 
@@ -19,7 +21,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/upload")
 @AllArgsConstructor
-public class FileUploadController {
+public class PhotoUploadController {
 	
 	@Autowired
 	private PhotoServiceImplementation fileUploadService;

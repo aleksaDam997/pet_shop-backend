@@ -28,7 +28,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pet {

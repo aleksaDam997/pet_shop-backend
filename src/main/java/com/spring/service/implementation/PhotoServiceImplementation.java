@@ -18,9 +18,9 @@ import com.spring.config.ResourceConfig;
 import com.spring.entity.Pet;
 import com.spring.entity.Photo;
 import com.spring.entity.User;
-import com.spring.repository.ProductRepository;
 import com.spring.repository.PetRepository;
 import com.spring.repository.PhotoRepository;
+import com.spring.repository.ProductRepository;
 import com.spring.repository.UserRepository;
 import com.spring.service.PhotoService;
 
@@ -126,6 +126,24 @@ public class PhotoServiceImplementation implements PhotoService{
 	
 	public Set<Photo> getPhotosForUserById(Long userId) {
 		return this.photoRepository.findByPetPetId(userId);
+	}
+
+	@Override
+	public Set<Photo> getPetPhotos(Long petId) {
+		
+		return this.photoRepository.findByPetPetId(petId);
+	}
+
+	@Override
+	public Set<Photo> getUserPhotos(Long userId) {
+		return null;
+//		return this.photoRepository.findByUserId(userId);
+	}
+
+	@Override
+	public Set<Photo> getProductPhotos(Long productId) {
+		return null;
+//		return this.getProductPhotos(productId);
 	}
 
 }

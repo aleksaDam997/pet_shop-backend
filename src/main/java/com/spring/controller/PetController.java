@@ -1,5 +1,6 @@
 package com.spring.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.dto.AddEditPetDto;
+import com.spring.dto.PetSearchDto;
 import com.spring.dto.PetWithPhotosDto;
 import com.spring.dto.SearchDto;
 import com.spring.entity.Pet;
@@ -24,6 +26,11 @@ public class PetController {
 	@PostMapping("api/admin/add/pet")
 	public Pet addNewPet(@RequestBody AddEditPetDto pet) {
 		return this.petService.savePet(pet);
+	}
+	
+	@GetMapping("api/user/get/pet")
+	public List<Pet> getAllPets() {
+		return this.petService.getPets();
 	}
 	
 	@GetMapping("api/user/get/pet/{id}")
@@ -50,4 +57,10 @@ public class PetController {
 	public Set<Pet> petsByWord(@RequestBody SearchDto search) {
 		return this.petService.searchPetsByWord(search);
 	}
+	
+	@PostMapping("api/user/pet/search")
+	public List<Pet> petFilterSearch(@RequestBody PetSearchDto petSearchDto) {
+		return this.petService.searchForPets(petSearchDto);
+	}
+	
 }
