@@ -1,0 +1,690 @@
+{
+	"info": {
+		"_postman_id": "97726b9e-d8e6-4b5f-8a5b-9296fe93d646",
+		"name": "Pet Shop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11224354"
+	},
+	"item": [
+		{
+			"name": "user login",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "coacarf1@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Lionel\",\r\n    \"lastName\": \"Messi\",\r\n    \"username\": \"Andres\",\r\n    \"password\": \"password\",\r\n    \"email\": \"coacarf1@gmail.com\",\r\n    \"contact\": \"065987789\",\r\n    \"address\": \"Rosario, Argentina\",\r\n    \"role\": \"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/registration",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm token",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkck5lZGVsamtvdmljIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS9sb2dpbiIsImV4cCI6MTY1MzY4MzE0OX0.ecR6ZB3CqwARdcBfzcyz9PG5MoSta5bpv64Ci7h5Xbg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/token/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"token",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Photo",
+			"item": [
+				{
+					"name": "Upload user photo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkck5lZGVsamtvdmljIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS9sb2dpbiIsImV4cCI6MTY1MzUwNTU5NX0.cijvXfJa4Bfv6LTP69jradXTVT0m-M8bSB9JoWEY4l4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/DT User6/Desktop/slike diplomski/120320697_258588028747620_8431913182921844753_n.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/upload/user/2/photo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"upload",
+								"user",
+								"2",
+								"photo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read photo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/resources/user/120320697_258588028747620_8431913182921844753_n.jpg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"resources",
+								"user",
+								"120320697_258588028747620_8431913182921844753_n.jpg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload pet photo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkck5lZGVsamtvdmljIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS9sb2dpbiIsImV4cCI6MTY1MzY5MzA3N30.zA0AARblUZQTsLbTO0y4g_kxQ70XNgQtPKjdS9AV5dk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/DT User6/Desktop/Rotvajler.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/upload/api/admin/pet/118/add/photo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"upload",
+								"api",
+								"admin",
+								"pet",
+								"118",
+								"add",
+								"photo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get pet photos by id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pet category",
+			"item": [
+				{
+					"name": "Add new pet category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkck5lZGVsamtvdmljIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS9sb2dpbiIsImV4cCI6MTY1MzczNzkwNn0.CYZYpNx8lI2MqUZ9yZCS_qpJl6gaCWzcG8WcAgaro6s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Terarijum\",\r\n    \"description\": \"Insekti, pauci, bogomoljke, stonoge\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/add/petCategory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"add",
+								"petCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkck5lZGVsamtvdmljIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS9sb2dpbiIsImV4cCI6MTY1Mzk1NzMzM30.fW7LV5IXmsQ9hZaRlUsuUmdGNfhFNCWlI9yhXQTk7_Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/get/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmRyZXMiLCJyb2xlcyI6WyJVU0VSIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9hcGkvbG9naW4iLCJleHAiOjE2NTM4NjA3Nzh9.LjKOpdm95dmod6e_j7oc-NHrDIyoQtwoZ7X1kHvss5k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/get/categories/98",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get",
+								"categories",
+								"98"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Animal",
+			"item": [
+				{
+					"name": "Add animal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkck5lZGVsamtvdmljIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS9sb2dpbiIsImV4cCI6MTY1MzY3NzY3OX0.mvLpCkoecfmAo6sNknFHF3u5ogGqoQUNDhwo97Wk-bk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Psi\",\r\n    \"clas\": \"Canis lupus familiaris\",\r\n    \"petCategoryId\": 51\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/add/animal",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"add",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Breed",
+			"item": [
+				{
+					"name": "Add breed",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkck5lZGVsamtvdmljIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS90b2tlbi9yZWZyZXNoIiwiZXhwIjoxNjUzNjc4NjczfQ.KdSu0gpNMZKo_ajsqRkjFr42eAjOS4mqv-GgD4xR5W8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Sfinks\",\r\n    \"description\": \"Bezdlaka Sfinks mačka je tipičan primer vrste mačaka koje su nastale slučajno. Elizabeth, crno-bela domaća mačka u Torontu u Kanadi, donela je na svet bezdlako mače. Smatra se da je razlog tome genetska mutacija. \",\r\n    \"animalId\": 113\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/add/breed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"add",
+								"breed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pet",
+			"item": [
+				{
+					"name": "Add Pet",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Sfinks macka\",\r\n    \"description\": \"Sfinks mačke spadaju u mačke bez dlake. Dok neki ljubitelji životinja kritiziraju uzgajivače ove pasmine iz Kanade i uzgoj smatraju mučenjem životinja, drugi se dive neobičnim ljubimicama. Ako pripadnica ovoj pasmini nema brkove, u većini zemalja EU njezin uzgoj će se klasificirati kao mučenje. U nastavku se bolje upoznajte s ovom mističnom pasminom. \",\r\n    \"excerpt\": \"Sfinks mačka je srednje velika, mišićava mačka koja može težiti i do sedam kilograma. Velike, otvorene uši nalaze se na četvrtastoj glavi. \",\r\n    \"sex\": \"MALE\",\r\n    \"age\": 3,\r\n    \"color\": \"crno-siva\",\r\n    \"eyesColor\": \"plave\",\r\n    \"quantity\": 1,\r\n    \"vendorPice\": 1000,\r\n    \"retailPrice\": 1500,\r\n    \"discount\": 0.05,\r\n    \"breedId\": 114\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/add/pet",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"add",
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get pets with photos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkck5lZGVsamtvdmljIiwicm9sZXMiOlsiQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS9sb2dpbiIsImV4cCI6MTY1MzY5MzA3N30.zA0AARblUZQTsLbTO0y4g_kxQ70XNgQtPKjdS9AV5dk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/get/pet/58",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get",
+								"pet",
+								"58"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pets by pet category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmRyZXMiLCJyb2xlcyI6WyJVU0VSIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9hcGkvbG9naW4iLCJleHAiOjE2NTM4NjIzNzZ9.WdWVlGyv8bWaucVUsFQS2-7gmPcaqZIwvy6b2jbfwbo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/get/pet/byPetCategory/51",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get",
+								"pet",
+								"byPetCategory",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get pets by animal",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/get/pet/byAnimal/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get",
+								"pet",
+								"byAnimal",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get pets by breed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/get/pet/byBreed/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get",
+								"pet",
+								"byBreed",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search for pets by word",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"word\": \"Domaci\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/get/pet/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get",
+								"pet",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all pets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/get/pet",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"get",
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pet filter search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"keyWords\": \"Domaci \",\r\n    \"minPrice\": 133.320,\r\n\t\"maxPrice\": 2000,\r\n    \"sortBy\": \"SORT_BY_PRICE_DESC\",\r\n\t\"breedId\": 53,\r\n\t\"animalId\": 52,\r\n\t\"categoryId\": 51\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/pet/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"pet",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
