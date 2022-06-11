@@ -3,6 +3,7 @@ package com.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,13 +27,18 @@ public class BreedController {
 		return this.breedService.saveBreed(breed);
 	}
 	
-	@PostMapping("api/user/get/breed")
+	@GetMapping("api/user/get/breed")
 	public List<Breed> getAllBreeds() {
 		return this.breedService.getAllBreeds();
 	}
 	
-	@PostMapping("api/user/get/breed/{id}")
+	@GetMapping("api/user/get/breed/{id}")
 	public Breed getSpecificBreed(@PathVariable("id") Long breedId) {
 		return this.breedService.getBreed(breedId);
+	}
+	
+	@GetMapping("api/user/get/breed/byAnimalId/{id}")
+	public List<Breed> getBreedsByAnimalId(@PathVariable("id") Long animalId) {
+		return this.breedService.getBreedsByAnimalId(animalId);
 	}
 }

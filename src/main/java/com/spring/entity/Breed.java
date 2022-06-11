@@ -27,6 +27,7 @@ public class Breed {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long breedId;
+	
 	private String name;
 	private String description;
 	

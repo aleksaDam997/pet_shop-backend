@@ -33,4 +33,9 @@ public class AnimalController {
 	public Animal getAnimalById(@PathVariable("id") Long animalId) {
 		return this.animalService.getAnimal(animalId);
 	}
+	
+	@GetMapping("api/user/get/animal/byCategoryId/{id}")
+	public List<Animal> getAnimalByCategoryID(@PathVariable("id") Long categoryID) {
+		return this.animalService.getAnimalByCatId(categoryID);
+	}
 }

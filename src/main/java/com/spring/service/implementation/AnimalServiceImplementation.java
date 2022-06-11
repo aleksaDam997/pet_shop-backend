@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dto.AddEditAnimalDto;
 import com.spring.entity.Animal;
+import com.spring.entity.Cart;
 import com.spring.repository.AnimalRepository;
 import com.spring.repository.PetCategoryRepository;
 import com.spring.service.AnimalService;
@@ -46,6 +47,12 @@ public class AnimalServiceImplementation implements AnimalService{
 	public Animal getAnimal(Long animalId) {
 		
 		return this.animalRepository.findById(animalId).get();
+	}
+
+	@Override
+	public List<Animal> getAnimalByCatId(Long categoryId) {
+		
+		return this.animalRepository.getAnimalByCategoryId(categoryId);
 	}
 
 }

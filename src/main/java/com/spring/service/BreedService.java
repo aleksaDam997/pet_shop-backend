@@ -10,4 +10,5 @@ public interface BreedService {
 	public Breed saveBreed(AddEditBreedDto breed);
 	public List<Breed> getAllBreeds();
 	public Breed getBreed(Long breedId);
+	public List<Breed> getBreedsByAnimalId(Long animalId);
 }

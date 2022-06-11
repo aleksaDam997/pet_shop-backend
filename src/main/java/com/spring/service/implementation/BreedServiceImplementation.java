@@ -47,5 +47,11 @@ public class BreedServiceImplementation implements BreedService{
 
 		return this.breedRepository.findById(breedId).get();
 	}
+
+	@Override
+	public List<Breed> getBreedsByAnimalId(Long animalId) {
+		
+		return this.breedRepository.getBreedByAnimalId(animalId);
+	}
 	
 }
