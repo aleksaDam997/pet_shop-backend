@@ -1,5 +1,6 @@
 package com.spring.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,13 +29,41 @@ public class PetServiceImplementation implements PetService{
 	@Autowired
 	private BreedRepository breedRepository;
 	
-	@Autowired	private PhotoRepository photoRepository;
+	@Autowired
+	private PhotoRepository photoRepository;
 	
 	@Autowired
 	private PetCustomRepository petCustomRepository;
 	
-	public List<Pet> searchForPets(PetSearchDto petSearchDto){
-		return this.petCustomRepository.petSearch(petSearchDto);
+	public List<PetWithPhotosDto> searchForPets(PetSearchDto petSearchDto){
+		
+		List<Pet> pets = this.petCustomRepository.petSearch(petSearchDto);
+		
+		List<PetWithPhotosDto> petsWithPhotos = new ArrayList<>();
+		
+		for(Pet p: pets) {
+			Set<Photo> petPhotos = this.photoRepository.findByPetPetId(p.getPetId());
+			
+			PetWithPhotosDto finalPet = new PetWithPhotosDto();
+			finalPet.setPetId(p.getPetId());
+			finalPet.setName(p.getName());
+			finalPet.setDescription(p.getDescription());
+			finalPet.setExcerpt(p.getExcerpt());
+			finalPet.setAge(p.getAge());
+			finalPet.setColor(p.getColor());
+			finalPet.setEyesColor(p.getEyesColor());
+			finalPet.setSex(p.getSex());
+			finalPet.setQuantity(p.getQuantity());
+			finalPet.setVendorPrice(p.getVendorPrice());
+			finalPet.setRetailPrice(p.getRetailPrice());
+			finalPet.setDiscount(p.getDiscount());
+			finalPet.setPhotos(petPhotos);
+			finalPet.setCartItem(p.getCartItem());
+			
+			petsWithPhotos.add(finalPet);
+		}
+		
+		return petsWithPhotos;
 	}
 
 	

@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		customAuthenticationFilter.setFilterProcessesUrl("/api/login");
 		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.authorizeRequests().antMatchers("/api/login", "/api/login/**", "/api/token/refresh", "/api/user/registration", "/resources/**", "/resources/pet/**", "/**").permitAll();
+		http.authorizeRequests().antMatchers("/api/login", "/api/login/**", "/api/token/refresh", "/api/user/registration", "/resources/**", "/resources/pet/**", "/resources/pet/small/**", "/resources/pet/medium/**", "/**").permitAll();
 //		http.authorizeRequests().antMatchers("/api/admin/**", "/upload/api/admin/**", "/api/user/**").hasAuthority("ADMIN");
 //		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/**", "/upload/api/user/**").hasAuthority("USER");
 		

@@ -33,9 +33,14 @@ public class PetController {
 		return this.petService.getPets();
 	}
 	
-	@GetMapping("api/user/get/pet/{id}")
+	@GetMapping("api/user/get/pet/{id}/photos")
 	public PetWithPhotosDto getPetById(@PathVariable("id") Long id) {
 		return this.petService.getPetWithPhotos(id);
+	}
+	
+	@GetMapping("api/user/get/pet/{id}")
+	public Pet getPet(@PathVariable("id") Long id) {
+		return this.petService.getPetById(id);
 	}
 	
 	@GetMapping("api/user/get/pet/byPetCategory/{id}")
@@ -59,7 +64,7 @@ public class PetController {
 	}
 	
 	@PostMapping("api/user/pet/search")
-	public List<Pet> petFilterSearch(@RequestBody PetSearchDto petSearchDto) {
+	public List<PetWithPhotosDto> petFilterSearch(@RequestBody PetSearchDto petSearchDto) {
 		return this.petService.searchForPets(petSearchDto);
 	}
 	
