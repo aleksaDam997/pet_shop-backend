@@ -1,17 +1,20 @@
 package com.spring.service.implementation;
 
+import java.sql.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.entity.Cart;
 import com.spring.entity.CartItem;
+import com.spring.entity.Pet;
 import com.spring.entity.Product;
 import com.spring.entity.User;
 import com.spring.repository.CartItemRepository;
 import com.spring.repository.CartRepository;
-import com.spring.repository.ProductRepository;
 import com.spring.repository.PetRepository;
+import com.spring.repository.ProductRepository;
 import com.spring.repository.UserRepository;
 import com.spring.service.CartService;
 
@@ -23,10 +26,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CartServiceImplementation implements CartService{
 	
+	@Autowired
 	private CartRepository cartRepository;
+	@Autowired
 	private UserRepository userRepository;
+	@Autowired
 	private CartItemRepository cartItemRepository;
+	@Autowired
 	private ProductRepository petProductRep;
+	@Autowired
 	private PetRepository petRep;
 	
 	@Override
@@ -48,6 +56,36 @@ public class CartServiceImplementation implements CartService{
 			}else {
 				cart = c;
 				break;
+			}
+		}
+		
+		return cart;
+	}
+	
+	@Override
+	public Cart getLastActiveCartByUsername(String username) {
+		
+		User user = this.userRepository.findByUsername(username).get();
+
+		List<Cart> carts = this.cartRepository.getLastActiveCartByUserId(user.getUserId());
+		
+		if(carts == null) {
+			return null;
+		}
+		
+		Cart cart = null;
+		Date date = new Date(1, 1, 1980);
+		
+		for(int i = 0; i < carts.size(); i++) {
+			Cart c = carts.get(i);
+			
+			if(c.getUserOrder() != null) {
+				continue;
+			}else {
+
+				if(c.getCreatedAt().after(date)) {
+					cart = c;
+				}
 			}
 		}
 		
@@ -83,6 +121,16 @@ public class CartServiceImplementation implements CartService{
 		cart.getCartItem().add(cartItem);
 		
 		return this.cartRepository.save(cart);
+	}
+	
+	public CartItem addPetToCart(Pet pet, Cart cart, int quantity) {
+		
+		CartItem cartItem = new CartItem();
+		cartItem.setCart(cart);
+		cartItem.setPet(pet);
+		cartItem.setQuantity(quantity);
+		
+		return this.cartItemRepository.save(cartItem);
 	}
 	
 	@Override

@@ -61,6 +61,7 @@ public class Pet {
 	@OneToMany(mappedBy = "pet")
 	private Set<Photo> photos = new HashSet<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "pet")
 	private Set<CartItem> cartItem = new HashSet<>();
 

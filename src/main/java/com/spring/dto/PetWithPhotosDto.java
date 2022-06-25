@@ -51,6 +51,4 @@ public class PetWithPhotosDto {
 	private Breed breed;
 
 	private Set<Photo> photos = new HashSet<>();
-	
-	private Set<CartItem> cartItem = new HashSet<>();
 }

@@ -58,7 +58,6 @@ public class PetServiceImplementation implements PetService{
 			finalPet.setRetailPrice(p.getRetailPrice());
 			finalPet.setDiscount(p.getDiscount());
 			finalPet.setPhotos(petPhotos);
-			finalPet.setCartItem(p.getCartItem());
 			
 			petsWithPhotos.add(finalPet);
 		}
@@ -138,7 +137,7 @@ public class PetServiceImplementation implements PetService{
 		petToReturn.setDiscount(pet.getDiscount());
 		
 		petToReturn.setBreed(pet.getBreed());
-		petToReturn.setCartItem(pet.getCartItem());
+//		petToReturn.setCartItem(pet.getCartItem());
 		
 		Set<Photo> photos = this.photoRepository.findByPetPetId(petId);
 		
