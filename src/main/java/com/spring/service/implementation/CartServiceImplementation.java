@@ -91,6 +91,9 @@ public class CartServiceImplementation implements CartService{
 		
 		return cart;
 	}
+	
+	
+	
 	@Override
 	public Cart createNewCartForUser(Long userId) {
 
@@ -180,6 +183,12 @@ public class CartServiceImplementation implements CartService{
 	public Cart addPetToCart(Long cartId, Long petId, int quantity) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<CartItem> getCartItemByCartId(Long cartId) {
+		
+		return this.cartItemRepository.getCartItemByCartId(cartId);
 	}
 
 

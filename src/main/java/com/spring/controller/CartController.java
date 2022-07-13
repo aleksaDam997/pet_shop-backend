@@ -1,5 +1,7 @@
 package com.spring.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.spring.dto.QuantityDto;
 import com.spring.entity.Cart;
+import com.spring.entity.CartItem;
 import com.spring.entity.Pet;
 import com.spring.service.implementation.CartServiceImplementation;
 import com.spring.service.implementation.PetServiceImplementation;
@@ -97,9 +100,9 @@ public class CartController {
 	}
 	
 	
-	@GetMapping("api/user/get/cart/{id}")
-	public Cart getCartById(@PathVariable Long cartId) {
-		return this.cartService.getById(cartId);
+	@GetMapping("api/user/get/cartItems/cart/{id}")
+	public List<CartItem> getCartItemByCartId(@PathVariable("id") Long cartId) {
+		return this.cartService.getCartItemByCartId(cartId);
 	}
 	
 	@PostMapping("api/user/add/cart/user/{id}")

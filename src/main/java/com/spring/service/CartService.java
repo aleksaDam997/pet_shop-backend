@@ -17,6 +17,7 @@ public interface CartService {
 	public Cart changeProductQuantity(Long cartId, Long productId, int newQuantity);
 	public Cart changePetQuantity(Long cartId, Long petId, int newQuantity);
 	public Cart getById(Long cartId);
-	Cart getLastActiveCartByUsername(String username);
-	CartItem addPetToCart(Pet pet, Cart cart, int quantity);
+	public Cart getLastActiveCartByUsername(String username);
+	public CartItem addPetToCart(Pet pet, Cart cart, int quantity);
+	public List<CartItem> getCartItemByCartId(Long cartId);
 }

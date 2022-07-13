@@ -18,6 +18,8 @@ import javax.persistence.OneToOne;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,6 +45,7 @@ public class Cart {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cart")
     private UserOrder userOrder;
     
+    @JsonIgnore
 	@OneToMany(mappedBy = "cart")
 	private Set<CartItem> cartItem = new HashSet<>();
 	
