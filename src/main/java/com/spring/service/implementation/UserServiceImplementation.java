@@ -86,7 +86,11 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
 		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getGroupName())));
 		
+//		Radilo kod mene ali nije kod Cvijanovica
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+		
+		//Radi kod Cvijanovica a cini mi se i kod mene
+//		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
 	}
 
 	@Override

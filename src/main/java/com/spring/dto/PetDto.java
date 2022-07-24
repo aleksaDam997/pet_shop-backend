@@ -27,7 +27,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PetWithPhotosDto {
+public class PetDto {
 
 	private Long petId;
 	
@@ -49,6 +49,6 @@ public class PetWithPhotosDto {
 	private double discount;
 	
 	private Breed breed;
-
+	
 	private Set<Photo> photos = new HashSet<>();
 }

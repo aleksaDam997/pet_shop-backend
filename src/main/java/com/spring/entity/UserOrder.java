@@ -1,7 +1,6 @@
 package com.spring.entity;
 
 import java.sql.Date;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,7 +30,7 @@ public class UserOrder {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userOrderId;
 	
-    @CreatedDate
+    @CreationTimestamp 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
     

@@ -9,11 +9,11 @@ import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
+	
+	 Logger logger = LoggerFactory.getLogger(CustomAuthorizationFilter.class);
+
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -55,12 +58,14 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 						authorities.add(new SimpleGrantedAuthority(role));
 					});
 										
+					logger.info(username);
+					
 					UsernamePasswordAuthenticationToken authentiactionToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
 					SecurityContextHolder.getContext().setAuthentication(authentiactionToken);
 					
 					filterChain.doFilter(request, response);
 				}catch (Exception e) {
-//					Logger.error("Error logging in {}", e.getMessage());
+					logger.error("Error logging in {}", e.getMessage());
 					response.setHeader("error", e.getMessage());
 					response.setStatus(403);
 //					response.sendError(FORBIDDEN.value()); FORBIDDEN.value() = 403

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.dto.AddEditPetDto;
 import com.spring.dto.PetSearchDto;
-import com.spring.dto.PetWithPhotosDto;
+import com.spring.dto.PetDto;
 import com.spring.dto.SearchDto;
 import com.spring.entity.Pet;
 import com.spring.service.implementation.PetServiceImplementation;
@@ -34,7 +34,7 @@ public class PetController {
 	}
 	
 	@GetMapping("api/user/get/pet/{id}/photos")
-	public PetWithPhotosDto getPetById(@PathVariable("id") Long id) {
+	public PetDto getPetById(@PathVariable("id") Long id) {
 		return this.petService.getPetWithPhotos(id);
 	}
 	
@@ -64,7 +64,7 @@ public class PetController {
 	}
 	
 	@PostMapping("api/user/pet/search")
-	public List<PetWithPhotosDto> petFilterSearch(@RequestBody PetSearchDto petSearchDto) {
+	public List<PetDto> petFilterSearch(@RequestBody PetSearchDto petSearchDto) {
 		return this.petService.searchForPets(petSearchDto);
 	}
 	

@@ -2,6 +2,7 @@ package com.spring.service;
 
 import java.util.List;
 
+import com.spring.dto.CartDto;
 import com.spring.entity.Cart;
 import com.spring.entity.CartItem;
 import com.spring.entity.Pet;
@@ -17,7 +18,10 @@ public interface CartService {
 	public Cart changeProductQuantity(Long cartId, Long productId, int newQuantity);
 	public Cart changePetQuantity(Long cartId, Long petId, int newQuantity);
 	public Cart getById(Long cartId);
-	public Cart getLastActiveCartByUsername(String username);
-	public CartItem addPetToCart(Pet pet, Cart cart, int quantity);
+	public CartItem addPetToCart(Long petId, String username, int quantity);
 	public List<CartItem> getCartItemByCartId(Long cartId);
+	
+	//Trebaju sig.
+	public CartDto getLastActiveCartDtoByUsername(String username);
+	public Cart getLastActiveCartByUsername(String username);
 }

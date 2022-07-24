@@ -1,11 +1,18 @@
 package com.spring.service.implementation;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.dto.CartDto;
+import com.spring.dto.PetDto;
 import com.spring.entity.Cart;
 import com.spring.entity.CartItem;
 import com.spring.entity.Pet;
@@ -37,6 +44,8 @@ public class CartServiceImplementation implements CartService{
 	@Autowired
 	private PetRepository petRep;
 	
+	Logger logger = LoggerFactory.getLogger(CartServiceImplementation.class);
+	
 	@Override
 	public Cart getLastActiveCartByUserId(Long userId) {
 
@@ -45,6 +54,8 @@ public class CartServiceImplementation implements CartService{
 		if(carts == null) {
 			return null;
 		}
+		
+		logger.debug(carts.toString());
 		
 		Cart cart = null;
 		
@@ -66,6 +77,10 @@ public class CartServiceImplementation implements CartService{
 	public Cart getLastActiveCartByUsername(String username) {
 		
 		User user = this.userRepository.findByUsername(username).get();
+		
+		if(user == null) {
+			return null;
+		}
 
 		List<Cart> carts = this.cartRepository.getLastActiveCartByUserId(user.getUserId());
 		
@@ -89,7 +104,81 @@ public class CartServiceImplementation implements CartService{
 			}
 		}
 		
+		if(cart == null) {
+			cart = new Cart();
+			cart.setUser(user);
+		}
+		
 		return cart;
+		
+	}
+	
+	@Override
+	public CartDto getLastActiveCartDtoByUsername(String username) {
+		
+		User user = this.userRepository.findByUsername(username).get();
+		
+		if(user == null) {
+			return null;
+		}
+
+		List<Cart> carts = this.cartRepository.getLastActiveCartByUserId(user.getUserId());
+		
+		if(carts == null) {
+			return null;
+		}
+		
+		Cart cart = null;
+		Date date = new Date(1, 1, 1980);
+		
+		for(int i = 0; i < carts.size(); i++) {
+			Cart c = carts.get(i);
+			
+			if(c.getUserOrder() != null) {
+				continue;
+			}else {
+
+				if(c.getCreatedAt().after(date)) {
+					cart = c;
+				}
+			}
+		}
+				
+		CartDto cd = new CartDto();
+		
+		cd.setCartId(cart.getCartId());
+		cd.setCreatedAt(cart.getCreatedAt());
+		cd.setUser(cart.getUser());
+		cd.setUserOrder(cart.getUserOrder());
+		
+		Set<Pet> pet = this.petRep.findBycartId(cd.getCartId());
+		Set<PetDto> petCart = new HashSet<>();
+		
+		for(Pet p : pet) {
+			
+			PetDto petDto = new PetDto();
+			
+			petDto.setPetId(p.getPetId());
+			petDto.setName(p.getName());
+			petDto.setVendorPrice(p.getVendorPrice());
+			petDto.setRetailPrice(p.getRetailPrice());
+			petDto.setDiscount(p.getDiscount());
+			petDto.setAge(p.getAge());
+			
+			CartItem ci = this.cartItemRepository.getCartItemByCartAndPetd(cd.getCartId(), p.getPetId());
+			
+			petDto.setQuantity(ci.getQuantity());
+			
+			petCart.add(petDto);
+		}
+		
+		cd.setPets(petCart);
+		
+		
+		
+		
+		
+		return cd;
 	}
 	
 	
@@ -126,14 +215,39 @@ public class CartServiceImplementation implements CartService{
 		return this.cartRepository.save(cart);
 	}
 	
-	public CartItem addPetToCart(Pet pet, Cart cart, int quantity) {
+	@Override
+	public CartItem addPetToCart(Long petId, String username, int quantity) {
 		
+		Cart cart = this.getLastActiveCartByUsername(username);
+		
+		CartItem ci = this.cartItemRepository.getCartItemByCartAndPetd(cart.getCartId(), petId);
+		
+		if(ci != null) {
+			ci.setQuantity(ci.getQuantity() + quantity);
+			
+			return this.cartItemRepository.save(ci);
+		}
+				
 		CartItem cartItem = new CartItem();
 		cartItem.setCart(cart);
+		
+		Pet pet = this.petRep.findById(petId).get();
+		
+		logger.info(pet.getPetId() +"");
+		
 		cartItem.setPet(pet);
 		cartItem.setQuantity(quantity);
 		
 		return this.cartItemRepository.save(cartItem);
+	}
+	
+	public Cart deletePetCartItem(Long cartId, Long petId) {
+		CartItem cartItem = this.cartItemRepository.getCartItemByCartAndPetd(cartId, petId);
+		
+		
+		this.cartItemRepository.delete(cartItem);
+		
+		return this.cartRepository.findById(cartId).get();
 	}
 	
 	@Override
@@ -190,6 +304,9 @@ public class CartServiceImplementation implements CartService{
 		
 		return this.cartItemRepository.getCartItemByCartId(cartId);
 	}
+
+
+
 
 
 }

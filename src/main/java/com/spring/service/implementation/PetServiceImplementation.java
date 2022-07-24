@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dto.AddEditPetDto;
 import com.spring.dto.PetSearchDto;
-import com.spring.dto.PetWithPhotosDto;
+import com.spring.dto.PetDto;
 import com.spring.dto.SearchDto;
 import com.spring.entity.Breed;
 import com.spring.entity.Pet;
@@ -35,16 +35,16 @@ public class PetServiceImplementation implements PetService{
 	@Autowired
 	private PetCustomRepository petCustomRepository;
 	
-	public List<PetWithPhotosDto> searchForPets(PetSearchDto petSearchDto){
+	public List<PetDto> searchForPets(PetSearchDto petSearchDto){
 		
 		List<Pet> pets = this.petCustomRepository.petSearch(petSearchDto);
 		
-		List<PetWithPhotosDto> petsWithPhotos = new ArrayList<>();
+		List<PetDto> petsWithPhotos = new ArrayList<>();
 		
 		for(Pet p: pets) {
 			Set<Photo> petPhotos = this.photoRepository.findByPetPetId(p.getPetId());
 			
-			PetWithPhotosDto finalPet = new PetWithPhotosDto();
+			PetDto finalPet = new PetDto();
 			finalPet.setPetId(p.getPetId());
 			finalPet.setName(p.getName());
 			finalPet.setDescription(p.getDescription());
@@ -120,8 +120,8 @@ public class PetServiceImplementation implements PetService{
 		return this.petRepository.findAll();
 	}
 	
-	public PetWithPhotosDto getPetWithPhotos(Long petId) { 
-		PetWithPhotosDto petToReturn = new PetWithPhotosDto();
+	public PetDto getPetWithPhotos(Long petId) { 
+		PetDto petToReturn = new PetDto();
 		Pet pet = this.petRepository.findById(petId).get();
 		
 		petToReturn.setName(pet.getName());
