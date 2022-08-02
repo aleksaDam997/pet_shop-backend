@@ -1,12 +1,17 @@
 package com.spring.service.implementation;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.spring.controller.OrderController;
 import com.spring.dto.CartDto;
 import com.spring.dto.PetDto;
 import com.spring.dto.UserOrderDto;
@@ -24,7 +29,10 @@ import com.spring.repository.UserOrderRepository;
 import com.spring.service.UserOrderService;
 
 import lombok.AllArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserOrderServiceImplementation implements UserOrderService {
@@ -35,6 +43,7 @@ public class UserOrderServiceImplementation implements UserOrderService {
 	private final PetRepository petRep;
 	private final CartItemRepository cartItemRepository;
 	private final PhotoRepository photosRepo;
+	
 	
 	@Override
 	public UserOrder createOrder(Cart cart) {
@@ -102,4 +111,21 @@ public class UserOrderServiceImplementation implements UserOrderService {
 		return ordersToReturn;
 	}
 	
+	public UserOrder changeOrderStatus(Long userOrderId, String status) {
+		UserOrder order = this.userOrderRepository.findById(userOrderId).get();
+		
+		if(status.equals("PENDING")) {
+			 order.setStatus(OrderStatus.PENDING);
+		}else if(status.equals("REJECTED")) {
+			order.setStatus(OrderStatus.REJECTED);
+		}else if(status.equals("ACCEPTED")) {
+			order.setStatus(OrderStatus.ACCEPTED);
+		}else if(status.equals("SHIPPED")) {
+			order.setStatus(OrderStatus.SHIPPED);
+		}
+		
+
+		
+		return this.userOrderRepository.save(order);
+	}
 }

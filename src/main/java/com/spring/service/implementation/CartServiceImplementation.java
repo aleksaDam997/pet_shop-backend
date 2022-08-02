@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +42,6 @@ public class CartServiceImplementation implements CartService{
 	@Autowired
 	private PetRepository petRep;
 	
-	Logger logger = LoggerFactory.getLogger(CartServiceImplementation.class);
 	
 	@Override
 	public Cart getLastActiveCartByUserId(Long userId) {
@@ -55,7 +52,6 @@ public class CartServiceImplementation implements CartService{
 			return null;
 		}
 		
-		logger.debug(carts.toString());
 		
 		Cart cart = null;
 		
@@ -220,11 +216,11 @@ public class CartServiceImplementation implements CartService{
 	public CartItem addPetToCart(Long petId, String username, int quantity) {
 		
 		Cart cart = this.getLastActiveCartByUsername(username);
-		
+		Pet pet = this.petRep.findById(petId).get();
 		CartItem ci = this.cartItemRepository.getCartItemByCartAndPetd(cart.getCartId(), petId);
 		
 		if(ci != null) {
-			ci.setQuantity(ci.getQuantity() + quantity);
+			ci.setQuantity(ci.getQuantity());
 			
 			return this.cartItemRepository.save(ci);
 		}
@@ -232,12 +228,10 @@ public class CartServiceImplementation implements CartService{
 		CartItem cartItem = new CartItem();
 		cartItem.setCart(cart);
 		
-		Pet pet = this.petRep.findById(petId).get();
-		
-		logger.info(pet.getPetId() +"");
-		
 		cartItem.setPet(pet);
 		cartItem.setQuantity(quantity);
+		
+		this.petRep.save(pet);
 		
 		return this.cartItemRepository.save(cartItem);
 	}
