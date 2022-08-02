@@ -11,4 +11,7 @@ public interface CartRepository extends JpaRepository<Cart, Long>{
 	
 	@Query("SELECT c FROM Cart c WHERE c.user.userId = ?1")
 	public List<Cart> getLastActiveCartByUserId(Long userId);
+	
+	@Query("SELECT c FROM Cart c WHERE c.userOrder.userOrderId = ?1")
+	public Cart getCartByOrderId(Long userOrderId);
 }

@@ -1,6 +1,7 @@
 package com.spring.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class Cart {
 	
     @CreationTimestamp 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
+    private Timestamp createdAt;
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "userId")

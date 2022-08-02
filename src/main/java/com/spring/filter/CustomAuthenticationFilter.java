@@ -1,8 +1,11 @@
 package com.spring.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -11,6 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,11 +28,15 @@ import org.springframework.web.util.UrlPathHelper;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.service.implementation.CartServiceImplementation;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	
+	Logger logger = LoggerFactory.getLogger(CustomAuthenticationFilter.class);
+
 
 	private final AuthenticationManager authenticationManager;
 	
@@ -96,10 +105,23 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 				.withIssuer(request.getRequestURL().toString())
 				.sign(algorithm);
 		
+		
 		Map<String, String> tokens = new HashMap<>();
 		tokens.put("status", "ok");
 		tokens.put("access_token", accessToken);
 		tokens.put("refresh_token", refreshToken);
+				
+		for(GrantedAuthority authority : user.getAuthorities()) {
+			
+			logger.info("ROLE: " + authority.getAuthority());
+			
+			if(authority.getAuthority().equals("ADMIN")) {
+				tokens.put("role_admin", authority.getAuthority());
+			}else if(authority.getAuthority().equals("USER")) {
+				tokens.put("role_user", authority.getAuthority());
+			}
+		}
+		
 		
 		response.setContentType("application/json");
 		

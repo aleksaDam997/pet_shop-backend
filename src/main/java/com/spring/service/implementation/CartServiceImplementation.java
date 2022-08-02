@@ -164,10 +164,11 @@ public class CartServiceImplementation implements CartService{
 			petDto.setRetailPrice(p.getRetailPrice());
 			petDto.setDiscount(p.getDiscount());
 			petDto.setAge(p.getAge());
+			petDto.setQuantity(p.getQuantity());
 			
 			CartItem ci = this.cartItemRepository.getCartItemByCartAndPetd(cd.getCartId(), p.getPetId());
 			
-			petDto.setQuantity(ci.getQuantity());
+			petDto.setCartQuantity(ci.getQuantity());
 			
 			petCart.add(petDto);
 		}
@@ -293,6 +294,7 @@ public class CartServiceImplementation implements CartService{
 		
 		return cart;
 	}
+	
 	@Override
 	public Cart addPetToCart(Long cartId, Long petId, int quantity) {
 		// TODO Auto-generated method stub

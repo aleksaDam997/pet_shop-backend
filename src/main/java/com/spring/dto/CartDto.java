@@ -1,6 +1,7 @@
 package com.spring.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class CartDto {
 	
 	private Long cartId;
 	
-    private Date createdAt;
+    private Timestamp createdAt;
     
     private User user;
 

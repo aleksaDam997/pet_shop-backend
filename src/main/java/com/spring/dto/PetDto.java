@@ -43,6 +43,7 @@ public class PetDto {
 	private String eyesColor;
 	
 	private int quantity;
+	private int cartQuantity;
 	
 	private double vendorPrice;
 	private double retailPrice;
