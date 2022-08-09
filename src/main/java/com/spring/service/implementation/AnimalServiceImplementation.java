@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dto.AddEditAnimalDto;
 import com.spring.entity.Animal;
-import com.spring.entity.Cart;
 import com.spring.repository.AnimalRepository;
 import com.spring.repository.PetCategoryRepository;
 import com.spring.service.AnimalService;

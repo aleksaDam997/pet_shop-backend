@@ -23,7 +23,6 @@ import com.spring.service.implementation.CartServiceImplementation;
 import com.spring.service.implementation.UserOrderServiceImplementation;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @AllArgsConstructor
@@ -67,8 +66,41 @@ public class OrderController {
 		return this.userOrderService.getOrders();
 	}
 	
+	@PostMapping("api/admin/get/order/status")
+	public List<UserOrderDto> getOrdersByStatus(@RequestBody OrderStatusDto status) {
+		return this.userOrderService.getOrdersByStatus(status.getStatus());
+	}
+	
 	@PutMapping("api/admin/change/status/order/{id}")
 	public UserOrder changeOrderStatus(@RequestBody OrderStatusDto status, @PathVariable("id") Long userOrderId) {
 		return this.userOrderService.changeOrderStatus(userOrderId, status.getStatus());
+	}
+	
+	@GetMapping("api/user/get/specific/order")
+	public List<UserOrderDto> getOrdersForUser(HttpServletRequest request){
+		String authorizationHeader = request.getHeader("Authorization");
+		String username = null;
+		
+		if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+			try {
+				String token = authorizationHeader.substring("Bearer ".length());
+				Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+				JWTVerifier verifier = JWT.require(algorithm).build();
+				DecodedJWT decodedJWT = verifier.verify(token);
+				
+				username = decodedJWT.getSubject();
+				
+
+			}catch(Exception e) {
+				
+			}
+			
+			return this.userOrderService.getOrdersByUsername(username);
+						
+			
+		}else {
+			
+			return null;
+		}
 	}
 }

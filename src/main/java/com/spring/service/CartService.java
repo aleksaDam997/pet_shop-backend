@@ -5,9 +5,6 @@ import java.util.List;
 import com.spring.dto.CartDto;
 import com.spring.entity.Cart;
 import com.spring.entity.CartItem;
-import com.spring.entity.Pet;
-import com.spring.entity.Product;
-import com.spring.entity.User;
 
 public interface CartService {
 
