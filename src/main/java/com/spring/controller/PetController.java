@@ -28,8 +28,8 @@ public class PetController {
 		return this.petService.savePet(pet);
 	}
 	
-	@GetMapping("api/user/get/pet")
-	public List<Pet> getAllPets() {
+	@GetMapping("api/admin/get/pet")
+	public List<PetDto> getAllPets() {
 		return this.petService.getPets();
 	}
 	

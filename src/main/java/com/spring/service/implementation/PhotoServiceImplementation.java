@@ -94,7 +94,7 @@ public class PhotoServiceImplementation implements PhotoService{
 			g = mediumImage.createGraphics();
 			g.drawImage(bimg, 0, 0, 456, 382, null);
 			g.dispose();
-			ImageIO.write(smallImage, "jpg", new File(finalPath + "medium/" + filename));
+			ImageIO.write(mediumImage, "jpg", new File(finalPath + "medium/" + filename));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

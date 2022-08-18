@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.AddEditPetDto;
-import com.spring.dto.PetSearchDto;
 import com.spring.dto.PetDto;
+import com.spring.dto.PetSearchDto;
 import com.spring.dto.SearchDto;
 import com.spring.entity.Breed;
 import com.spring.entity.Pet;
 import com.spring.entity.Photo;
+import com.spring.entity.Status;
 import com.spring.repository.BreedRepository;
 import com.spring.repository.PetCustomRepository;
 import com.spring.repository.PetRepository;
@@ -57,7 +58,9 @@ public class PetServiceImplementation implements PetService{
 			finalPet.setVendorPrice(p.getVendorPrice());
 			finalPet.setRetailPrice(p.getRetailPrice());
 			finalPet.setDiscount(p.getDiscount());
+			finalPet.setStatus(p.getStatus());
 			finalPet.setPhotos(petPhotos);
+			
 			
 			petsWithPhotos.add(finalPet);
 		}
@@ -82,6 +85,7 @@ public class PetServiceImplementation implements PetService{
 		pet.setVendorPrice(addEditPetDto.getVendorPrice());
 		pet.setRetailPrice(addEditPetDto.getRetailPrice());
 		pet.setDiscount(addEditPetDto.getDiscount());
+		pet.setStatus(Status.ON_SALE);
 		
 		Breed breed = this.breedRepository.findById(addEditPetDto.getBreedId()).get();
 		
@@ -106,6 +110,7 @@ public class PetServiceImplementation implements PetService{
 		pet.setVendorPrice(editPetDto.getVendorPrice());
 		pet.setRetailPrice(editPetDto.getRetailPrice());
 		pet.setDiscount(editPetDto.getDiscount());
+		pet.setStatus(editPetDto.getStatus());
 		
 		return this.petRepository.save(pet);
 	}
@@ -116,8 +121,38 @@ public class PetServiceImplementation implements PetService{
 	}
 
 	@Override
-	public List<Pet> getPets() {
-		return this.petRepository.findAll();
+	public List<PetDto> getPets() {
+		List<Pet> pets = this.petRepository.findAll();
+		List<PetDto> petDtos = new ArrayList<>();
+		
+		for(Pet p : pets) {
+			PetDto petToReturn = new PetDto();
+			
+			petToReturn.setPetId(p.getPetId());
+			petToReturn.setName(p.getName());
+			petToReturn.setDescription(p.getDescription());
+			petToReturn.setExcerpt(p.getExcerpt());
+			petToReturn.setAge(p.getAge());
+			petToReturn.setColor(p.getColor());
+			petToReturn.setEyesColor(p.getEyesColor());
+			petToReturn.setSex(p.getSex());
+			petToReturn.setQuantity(p.getQuantity());
+			petToReturn.setVendorPrice(p.getVendorPrice());
+			petToReturn.setRetailPrice(p.getRetailPrice());
+			petToReturn.setDiscount(p.getDiscount());
+			petToReturn.setStatus(p.getStatus());
+			
+			petToReturn.setBreed(p.getBreed());
+//			petToReturn.setCartItem(pet.getCartItem());
+			
+			Set<Photo> photos = this.photoRepository.findByPetPetId(p.getPetId());
+			
+			petToReturn.setPhotos(photos);
+			
+			petDtos.add(petToReturn);
+		}
+	
+		return petDtos;
 	}
 	
 	public PetDto getPetWithPhotos(Long petId) { 
@@ -135,6 +170,7 @@ public class PetServiceImplementation implements PetService{
 		petToReturn.setVendorPrice(pet.getVendorPrice());
 		petToReturn.setRetailPrice(pet.getRetailPrice());
 		petToReturn.setDiscount(pet.getDiscount());
+		petToReturn.setStatus(pet.getStatus());
 		
 		petToReturn.setBreed(pet.getBreed());
 //		petToReturn.setCartItem(pet.getCartItem());

@@ -14,16 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
@@ -52,6 +48,8 @@ public class Pet {
 	private double vendorPrice;
 	private double retailPrice;
 	private double discount;
+	
+	private Status status;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "breed_id", referencedColumnName = "breedId")

@@ -65,7 +65,7 @@ public class CartController {
 				
 
 			}catch(Exception e) {
-				
+				return this.cartService.createNewCartForUser(username);
 			}
 			
 			return this.cartService.getLastActiveCartDtoByUsername(username);
@@ -73,13 +73,13 @@ public class CartController {
 			
 		}else {
 			
-			return null;
+			return this.cartService.createNewCartForUser(username);
 		}
 
 	}
 	
 	@PostMapping("api/user/add/cart-item/pet/{petId}")
-	public CartItem addPetToCart(HttpServletRequest request, @PathVariable("petId") Long petId, @RequestBody QuantityDto quantityDto) {
+	public Cart addPetToCart(HttpServletRequest request, @PathVariable("petId") Long petId, @RequestBody QuantityDto quantityDto) {
 		
 		String authorizationHeader = request.getHeader("Authorization");
 		String username = null;

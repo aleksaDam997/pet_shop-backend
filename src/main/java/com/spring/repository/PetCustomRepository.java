@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.dto.PetSearchDto;
 import com.spring.entity.Pet;
 import com.spring.entity.Product;
+import com.spring.entity.Sex;
 
 @Repository
 public class PetCustomRepository {
@@ -44,6 +45,20 @@ public class PetCustomRepository {
 		if(petSearchDto.getBreedId() != null && petSearchDto.getBreedId() != 0) {
 			Predicate byBreed = criteriBuilder.equal(pet.get("breed").get("breedId"), petSearchDto.getBreedId());
 			searchCriteria.add(byBreed);
+		}
+		
+		if(petSearchDto.getSex() != "" && petSearchDto.getSex() != null) {
+			Sex sex = null;
+			if(petSearchDto.getSex().equals("MALE")) {
+				sex = Sex.MALE;
+			}else if(petSearchDto.getSex().equals("FEMALE")) {
+				sex = Sex.FEMALE;
+			}
+			
+			Predicate gender = criteriBuilder.equal(pet.get("sex"), sex);
+			
+			searchCriteria.add(gender);
+					
 		}
 		
 		if(petSearchDto.getKeyWords() != "" && petSearchDto.getKeyWords() != null) {

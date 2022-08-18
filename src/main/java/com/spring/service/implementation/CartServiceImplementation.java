@@ -160,6 +160,8 @@ public class CartServiceImplementation implements CartService{
 			petDto.setDiscount(p.getDiscount());
 			petDto.setAge(p.getAge());
 			petDto.setQuantity(p.getQuantity());
+			petDto.setSex(p.getSex());
+			petDto.setStatus(p.getStatus());
 			
 			CartItem ci = this.cartItemRepository.getCartItemByCartAndPetd(cd.getCartId(), p.getPetId());
 			
@@ -180,19 +182,27 @@ public class CartServiceImplementation implements CartService{
 	
 	
 	@Override
-	public Cart createNewCartForUser(Long userId) {
+	public CartDto createNewCartForUser(String username) {
 
 		Cart cart = new Cart();
 		
-		if(!this.userRepository.findById(userId).isPresent()) {
+		if(!this.userRepository.findByUsername(username).isPresent()) {
 			return null;
 		}
 		
-		User user = this.userRepository.findById(userId).get();
+		User user = this.userRepository.findByUsername(username).get();
 		
 		cart.setUser(user);
 		
-		return this.cartRepository.save(cart);
+		Cart savedCart = this.cartRepository.save(cart);
+		
+		CartDto cartDto = new CartDto();
+		cartDto.setCartId(savedCart.getCartId());
+		cartDto.setUser(savedCart.getUser());
+		cartDto.setCreatedAt(savedCart.getCreatedAt());
+		cartDto.setUserOrder(savedCart.getUserOrder());
+		
+		return cartDto;
 	}
 	
 	@Override
@@ -212,16 +222,15 @@ public class CartServiceImplementation implements CartService{
 	}
 	
 	@Override
-	public CartItem addPetToCart(Long petId, String username, int quantity) {
+	public Cart addPetToCart(Long petId, String username, int quantity) {
 		
 		Cart cart = this.getLastActiveCartByUsername(username);
 		Pet pet = this.petRep.findById(petId).get();
-		CartItem ci = this.cartItemRepository.getCartItemByCartAndPetd(cart.getCartId(), petId);
+		
+		CartItem ci = this.cartItemRepository.getCartItemByCartAndPetd(cart.getCartId(), pet.getPetId());
 		
 		if(ci != null) {
-			ci.setQuantity(ci.getQuantity());
-			
-			return this.cartItemRepository.save(ci);
+			return this.changePetQuantity(cart.getCartId(), pet.getPetId(), quantity + ci.getQuantity());
 		}
 				
 		CartItem cartItem = new CartItem();
@@ -229,10 +238,10 @@ public class CartServiceImplementation implements CartService{
 		
 		cartItem.setPet(pet);
 		cartItem.setQuantity(quantity);
+				
+		this.cartItemRepository.save(cartItem);
 		
-		this.petRep.save(pet);
-		
-		return this.cartItemRepository.save(cartItem);
+		return this.cartRepository.findById(cart.getCartId()).get();
 	}
 	
 	public Cart deletePetCartItem(Long cartId, Long petId) {
@@ -288,19 +297,12 @@ public class CartServiceImplementation implements CartService{
 		return cart;
 	}
 	
-	@Override
-	public Cart addPetToCart(Long cartId, Long petId, int quantity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<CartItem> getCartItemByCartId(Long cartId) {
 		
 		return this.cartItemRepository.getCartItemByCartId(cartId);
 	}
-
-
 
 
 
