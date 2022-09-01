@@ -11,7 +11,7 @@ import com.spring.entity.User;
 public interface PhotoService {
 
 	public User uploadUserPhoto(MultipartFile file, Long userId);
-	public Pet uploadPetPhoto(MultipartFile file, Long petId);
+	public Pet uploadPetPhoto(MultipartFile[] file, Long petId);
 	public Set<Photo> getPetPhotos(Long petId);
 	public Set<Photo> getUserPhotos(Long userId);
 	public Set<Photo> getProductPhotos(Long productId);

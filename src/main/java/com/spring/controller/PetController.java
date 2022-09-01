@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,11 @@ public class PetController {
 	@PostMapping("api/admin/add/pet")
 	public Pet addNewPet(@RequestBody AddEditPetDto pet) {
 		return this.petService.savePet(pet);
+	}
+	
+	@PutMapping("api/admin/edit/pet/{id}")
+	public Pet editExistingPet(@PathVariable("id") Long id, @RequestBody AddEditPetDto editPetDto) {
+		return this.petService.editPetData(id, editPetDto);
 	}
 	
 	@GetMapping("api/admin/get/pet")

@@ -68,43 +68,47 @@ public class PhotoServiceImplementation implements PhotoService{
 	}
 
 	@Override
-	public Pet uploadPetPhoto(MultipartFile file, Long petId) {
+	public Pet uploadPetPhoto(MultipartFile[] files, Long petId) {
 
 		Pet pet = this.petRep.findById(petId).get();
 		
-		String filename = this.generatePhotoName(StringUtils.cleanPath(file.getOriginalFilename()));
-		
-		String finalPath = ResourceConfig.uploadDirectory + "pet/";
-		
-		try {
-			byte[] fileToStore = file.getBytes();
-			FileOutputStream fos = new FileOutputStream(new File(finalPath + filename));
-			fos.write(fileToStore);
-			fos.flush();
-			fos.close();
+		for(MultipartFile file : files) {
+			String filename = this.generatePhotoName(StringUtils.cleanPath(file.getOriginalFilename()));
 			
-			BufferedImage bimg = ImageIO.read(new File(finalPath + filename));
-			BufferedImage smallImage = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB);
-			Graphics2D g = smallImage.createGraphics();
-			g.drawImage(bimg, 0, 0, 128, 128, null);
-			g.dispose();
-			ImageIO.write(smallImage, "jpg", new File(finalPath + "small/" + filename));
+			String finalPath = ResourceConfig.uploadDirectory + "pet/";
 			
-			BufferedImage mediumImage = new BufferedImage(456, 382, BufferedImage.TYPE_INT_RGB);
-			g = mediumImage.createGraphics();
-			g.drawImage(bimg, 0, 0, 456, 382, null);
-			g.dispose();
-			ImageIO.write(mediumImage, "jpg", new File(finalPath + "medium/" + filename));
+			try {
+				byte[] fileToStore = file.getBytes();
+				FileOutputStream fos = new FileOutputStream(new File(finalPath + filename));
+				fos.write(fileToStore);
+				fos.flush();
+				fos.close();
+				
+				BufferedImage bimg = ImageIO.read(new File(finalPath + filename));
+				BufferedImage smallImage = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g = smallImage.createGraphics();
+				g.drawImage(bimg, 0, 0, 128, 128, null);
+				g.dispose();
+				ImageIO.write(smallImage, "jpg", new File(finalPath + "small/" + filename));
+				
+				BufferedImage mediumImage = new BufferedImage(456, 382, BufferedImage.TYPE_INT_RGB);
+				g = mediumImage.createGraphics();
+				g.drawImage(bimg, 0, 0, 456, 382, null);
+				g.dispose();
+				ImageIO.write(mediumImage, "jpg", new File(finalPath + "medium/" + filename));
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
+			Photo photo = new Photo();
+			photo.setPath(filename);
+			photo.setPet(pet);
+			
+			this.photoRepository.save(photo);	
+		}
 		
-		Photo photo = new Photo();
-		photo.setPath(filename);
-		photo.setPet(pet);
-		
-		this.photoRepository.save(photo);		
+	
 		
 		return this.petRep.findById(petId).get();
 	}
