@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ import com.spring.service.PetService;
 
 @Service
 public class PetServiceImplementation implements PetService{
+	Logger logger = LoggerFactory.getLogger(PetServiceImplementation.class);
 
 	@Autowired
 	private PetRepository petRepository;
@@ -38,7 +41,7 @@ public class PetServiceImplementation implements PetService{
 	public List<PetWithPhotosDto> searchForPets(PetSearchDto petSearchDto){
 		
 		List<Pet> pets = this.petCustomRepository.petSearch(petSearchDto);
-		
+				
 		List<PetWithPhotosDto> petsWithPhotos = new ArrayList<>();
 		
 		for(Pet p: pets) {
@@ -116,8 +119,33 @@ public class PetServiceImplementation implements PetService{
 	}
 
 	@Override
-	public List<Pet> getPets() {
-		return this.petRepository.findAll();
+	public List<PetWithPhotosDto> getPets() {
+		List<Pet> pets = this.petRepository.findAll();
+		
+		List<PetWithPhotosDto> petsWithPhotos = new ArrayList<>();
+		
+		for(Pet p: pets) {
+			Set<Photo> petPhotos = this.photoRepository.findByPetPetId(p.getPetId());
+			
+			PetWithPhotosDto finalPet = new PetWithPhotosDto();
+			finalPet.setPetId(p.getPetId());
+			finalPet.setName(p.getName());
+			finalPet.setDescription(p.getDescription());
+			finalPet.setExcerpt(p.getExcerpt());
+			finalPet.setAge(p.getAge());
+			finalPet.setColor(p.getColor());
+			finalPet.setEyesColor(p.getEyesColor());
+			finalPet.setSex(p.getSex());
+			finalPet.setQuantity(p.getQuantity());
+			finalPet.setVendorPrice(p.getVendorPrice());
+			finalPet.setRetailPrice(p.getRetailPrice());
+			finalPet.setDiscount(p.getDiscount());
+			finalPet.setPhotos(petPhotos);
+			
+			petsWithPhotos.add(finalPet);
+		}
+		
+		return petsWithPhotos;
 	}
 	
 	public PetWithPhotosDto getPetWithPhotos(Long petId) { 

@@ -29,7 +29,7 @@ public class PetController {
 	}
 	
 	@GetMapping("api/user/get/pet")
-	public List<Pet> getAllPets() {
+	public List<PetWithPhotosDto> getAllPets() {
 		return this.petService.getPets();
 	}
 	

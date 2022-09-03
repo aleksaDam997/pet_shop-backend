@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,14 +27,17 @@ import com.spring.service.UserService;
 import com.spring.validator.EmailValidator;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class UserServiceImplementation implements UserService, UserDetailsService{
+	
+	Logger logger = LoggerFactory.getLogger(UserServiceImplementation.class);
 	
 	private final UserRepository userRepository;
 	private final UserGroupRepository userGroupRepository;
@@ -86,7 +91,11 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
 		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getGroupName())));
 		
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+		logger.info("Username is: " + user.getUsername());
+		logger.info(user.getPassword());
+		logger.info(authorities.toString());
+		
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
 	}
 
 	@Override
