@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.AddEditPetDto;
+import com.spring.dto.PetDto;
 import com.spring.dto.PetSearchDto;
-import com.spring.dto.PetWithPhotosDto;
 import com.spring.dto.SearchDto;
 import com.spring.entity.Breed;
 import com.spring.entity.Pet;
 import com.spring.entity.Photo;
+import com.spring.entity.Status;
 import com.spring.repository.BreedRepository;
 import com.spring.repository.PetCustomRepository;
 import com.spring.repository.PetRepository;
@@ -38,16 +39,16 @@ public class PetServiceImplementation implements PetService{
 	@Autowired
 	private PetCustomRepository petCustomRepository;
 	
-	public List<PetWithPhotosDto> searchForPets(PetSearchDto petSearchDto){
+	public List<PetDto> searchForPets(PetSearchDto petSearchDto){
 		
 		List<Pet> pets = this.petCustomRepository.petSearch(petSearchDto);
-				
-		List<PetWithPhotosDto> petsWithPhotos = new ArrayList<>();
+		
+		List<PetDto> petsWithPhotos = new ArrayList<>();
 		
 		for(Pet p: pets) {
 			Set<Photo> petPhotos = this.photoRepository.findByPetPetId(p.getPetId());
 			
-			PetWithPhotosDto finalPet = new PetWithPhotosDto();
+			PetDto finalPet = new PetDto();
 			finalPet.setPetId(p.getPetId());
 			finalPet.setName(p.getName());
 			finalPet.setDescription(p.getDescription());
@@ -60,7 +61,9 @@ public class PetServiceImplementation implements PetService{
 			finalPet.setVendorPrice(p.getVendorPrice());
 			finalPet.setRetailPrice(p.getRetailPrice());
 			finalPet.setDiscount(p.getDiscount());
+			finalPet.setStatus(p.getStatus());
 			finalPet.setPhotos(petPhotos);
+			
 			
 			petsWithPhotos.add(finalPet);
 		}
@@ -85,6 +88,7 @@ public class PetServiceImplementation implements PetService{
 		pet.setVendorPrice(addEditPetDto.getVendorPrice());
 		pet.setRetailPrice(addEditPetDto.getRetailPrice());
 		pet.setDiscount(addEditPetDto.getDiscount());
+		pet.setStatus(Status.ON_SALE);
 		
 		Breed breed = this.breedRepository.findById(addEditPetDto.getBreedId()).get();
 		
@@ -109,6 +113,11 @@ public class PetServiceImplementation implements PetService{
 		pet.setVendorPrice(editPetDto.getVendorPrice());
 		pet.setRetailPrice(editPetDto.getRetailPrice());
 		pet.setDiscount(editPetDto.getDiscount());
+		pet.setStatus(editPetDto.getStatus());
+		
+		Breed breed = this.breedRepository.findById(editPetDto.getBreedId()).get();
+		
+		pet.setBreed(breed);
 		
 		return this.petRepository.save(pet);
 	}
@@ -118,38 +127,44 @@ public class PetServiceImplementation implements PetService{
 		return this.petRepository.findById(petId).get();
 	}
 
-	@Override
-	public List<PetWithPhotosDto> getPets() {
+
+		public List<PetDto> getPets() {
 		List<Pet> pets = this.petRepository.findAll();
+		List<PetDto> petDtos = new ArrayList<>();
 		
-		List<PetWithPhotosDto> petsWithPhotos = new ArrayList<>();
-		
-		for(Pet p: pets) {
-			Set<Photo> petPhotos = this.photoRepository.findByPetPetId(p.getPetId());
+		for(Pet p : pets) {
+			PetDto petToReturn = new PetDto();
 			
-			PetWithPhotosDto finalPet = new PetWithPhotosDto();
-			finalPet.setPetId(p.getPetId());
-			finalPet.setName(p.getName());
-			finalPet.setDescription(p.getDescription());
-			finalPet.setExcerpt(p.getExcerpt());
-			finalPet.setAge(p.getAge());
-			finalPet.setColor(p.getColor());
-			finalPet.setEyesColor(p.getEyesColor());
-			finalPet.setSex(p.getSex());
-			finalPet.setQuantity(p.getQuantity());
-			finalPet.setVendorPrice(p.getVendorPrice());
-			finalPet.setRetailPrice(p.getRetailPrice());
-			finalPet.setDiscount(p.getDiscount());
-			finalPet.setPhotos(petPhotos);
+			petToReturn.setPetId(p.getPetId());
+			petToReturn.setName(p.getName());
+			petToReturn.setDescription(p.getDescription());
+			petToReturn.setExcerpt(p.getExcerpt());
+			petToReturn.setAge(p.getAge());
+			petToReturn.setColor(p.getColor());
+			petToReturn.setEyesColor(p.getEyesColor());
+			petToReturn.setSex(p.getSex());
+			petToReturn.setQuantity(p.getQuantity());
+			petToReturn.setVendorPrice(p.getVendorPrice());
+			petToReturn.setRetailPrice(p.getRetailPrice());
+			petToReturn.setDiscount(p.getDiscount());
+			petToReturn.setStatus(p.getStatus());
 			
-			petsWithPhotos.add(finalPet);
+			petToReturn.setBreed(p.getBreed());
+//			petToReturn.setCartItem(pet.getCartItem());
+			
+			Set<Photo> photos = this.photoRepository.findByPetPetId(p.getPetId());
+			
+			petToReturn.setPhotos(photos);
+			
+			petDtos.add(petToReturn);
 		}
-		
-		return petsWithPhotos;
+	
+		return petDtos;
+
 	}
 	
-	public PetWithPhotosDto getPetWithPhotos(Long petId) { 
-		PetWithPhotosDto petToReturn = new PetWithPhotosDto();
+	public PetDto getPetWithPhotos(Long petId) { 
+		PetDto petToReturn = new PetDto();
 		Pet pet = this.petRepository.findById(petId).get();
 		
 		petToReturn.setName(pet.getName());
@@ -163,6 +178,7 @@ public class PetServiceImplementation implements PetService{
 		petToReturn.setVendorPrice(pet.getVendorPrice());
 		petToReturn.setRetailPrice(pet.getRetailPrice());
 		petToReturn.setDiscount(pet.getDiscount());
+		petToReturn.setStatus(pet.getStatus());
 		
 		petToReturn.setBreed(pet.getBreed());
 //		petToReturn.setCartItem(pet.getCartItem());

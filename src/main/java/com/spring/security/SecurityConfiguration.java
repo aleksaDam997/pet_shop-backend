@@ -2,9 +2,9 @@ package com.spring.security;
 
 import java.util.Arrays;
 
-import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,7 +22,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.spring.filter.CustomAuthenticationFilter;
 import com.spring.filter.CustomAuthorizationFilter;
-import com.spring.service.implementation.UserServiceImplementation;
 
 import lombok.AllArgsConstructor;
 
@@ -32,6 +31,7 @@ import lombok.AllArgsConstructor;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	private final UserDetailsService userServiceImplementation;
+	private final UserDetailsService userDetailsService;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

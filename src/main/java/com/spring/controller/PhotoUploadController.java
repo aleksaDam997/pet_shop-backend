@@ -32,7 +32,7 @@ public class PhotoUploadController {
 	}
 	
 	@PostMapping("api/admin/pet/{id}/add/photo")
-	public Pet uploadPetPhoto(@RequestParam("file") MultipartFile file, @PathVariable("id") Long petId) {
+	public Pet uploadPetPhoto(@RequestParam("file") MultipartFile[] file, @PathVariable("id") Long petId) {
 		return this.fileUploadService.uploadPetPhoto(file, petId);
 	}
 	

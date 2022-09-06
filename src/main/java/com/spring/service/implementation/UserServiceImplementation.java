@@ -26,7 +26,6 @@ import com.spring.service.EmailSenderService;
 import com.spring.service.UserService;
 import com.spring.validator.EmailValidator;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -95,6 +94,10 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
 		logger.info(user.getPassword());
 		logger.info(authorities.toString());
 		
+//		Radilo kod mene ali nije kod Cvijanovica
+//		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+		
+		//Radi kod Cvijanovica a cini mi se i kod mene
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
 	}
 

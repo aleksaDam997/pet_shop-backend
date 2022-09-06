@@ -1,4 +1,4 @@
-package com.spring.entity;
+package com.spring.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -16,31 +16,25 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.spring.entity.Cart;
+import com.spring.entity.OrderStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOrder {
+public class UserOrderDto {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userOrderId;
 	
-    @CreationTimestamp 
-    @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
     
     private OrderStatus status;
     
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id", referencedColumnName = "cartId")
-    private Cart cart;
+    private CartDto cart;
 }

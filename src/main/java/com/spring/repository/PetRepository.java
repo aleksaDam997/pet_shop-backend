@@ -22,5 +22,8 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
 	
 	@Query("SELECT p FROM Breed b JOIN b.pet p WHERE b.breedId = ?1")
 	public Set<Pet> searchPetsByBreedId(Long breedId);
+	
+	@Query("SELECT p FROM Cart c JOIN c.cartItem ci JOIN ci.pet p WHERE c.cartId = ?1")
+	public Set<Pet> findBycartId(Long cartId);
 
 }

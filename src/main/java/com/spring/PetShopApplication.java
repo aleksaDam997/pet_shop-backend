@@ -47,6 +47,7 @@ public class PetShopApplication {
 			Algorithm alg = Algorithm.HMAC256("secret".getBytes());
 			BCryptPasswordEncoder bcp = new BCryptPasswordEncoder();
 			System.out.println(bcp.encode("password"));
+			System.out.println(bcp.encode("sarmica"));
 			
 		};
 	}
