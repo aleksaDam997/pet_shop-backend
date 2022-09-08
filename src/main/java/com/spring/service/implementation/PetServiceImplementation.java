@@ -113,7 +113,6 @@ public class PetServiceImplementation implements PetService{
 		pet.setVendorPrice(editPetDto.getVendorPrice());
 		pet.setRetailPrice(editPetDto.getRetailPrice());
 		pet.setDiscount(editPetDto.getDiscount());
-		pet.setStatus(editPetDto.getStatus());
 		
 		Breed breed = this.breedRepository.findById(editPetDto.getBreedId()).get();
 		
